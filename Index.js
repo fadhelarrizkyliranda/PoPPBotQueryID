@@ -134,16 +134,22 @@ async function runContinuously() {
         }
     }
 
+    const startTime = moment().tz('Asia/Jakarta');
     let currentIndex = 0;
+
     let intervalId = setInterval(async () => {
         const now = moment().tz('Asia/Jakarta');
+        const elapsedHours = now.diff(startTime, 'hours');
+
+        // Check if it's time to stop the script between 23:00 and 23:05 WIB
         if (now.hour() === 23 && now.minute() >= 0 && now.minute() < 5) {
-          clearInterval(intervalId);
-          console.log('Stopped running from 23:00 to 23:05 WIB.');
-          setTimeout(runContinuously, 5 * 60 * 1000); // Restart at 23:05 WIB
-          return;
+            clearInterval(intervalId);
+            console.log('Stopped running from 23:00 to 23:05 WIB.');
+            setTimeout(runContinuously, 5 * 60 * 1000); // Restart at 23:05 WIB
+            return;
         }
 
+        // Check if 6 hours have passed
         if (elapsedHours >= 6) {
             clearInterval(intervalId);
             console.log('Stopped running after 6 hours.');

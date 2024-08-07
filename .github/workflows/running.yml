@@ -1,0 +1,35 @@
+name: Run Script
+'on':
+  push:
+    branches:
+      - main
+  workflow_dispatch: null
+  schedule:
+    - cron: 05 16 * * *
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - name: Install dependencies
+        run: npm install moment-timezone colors axios
+        env:
+          AUTH_TOKEN_1: '${{ secrets.AUTH_TOKEN_1 }}'
+          AUTH_TOKEN_2: '${{ secrets.AUTH_TOKEN_2 }}'
+          AUTH_TOKEN_3: '${{ secrets.AUTH_TOKEN_3 }}'
+      - name: Run the script and save log
+        run: node Index.js > output.log
+        env:
+          AUTH_TOKEN_1: '${{ secrets.AUTH_TOKEN_1 }}'
+          AUTH_TOKEN_2: '${{ secrets.AUTH_TOKEN_2 }}'
+          AUTH_TOKEN_3: '${{ secrets.AUTH_TOKEN_3 }}'
+      - name: Upload log file
+        uses: actions/upload-artifact@v2
+        with:
+          name: script-log
+          path: output.log

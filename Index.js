@@ -136,21 +136,28 @@ async function runContinuously() {
 
     let currentIndex = 0;
     let intervalId = setInterval(async () => {
-      const now = moment().tz('Asia/Jakarta');
-      if (now.hour() === 23 && now.minute() >= 0 && now.minute() < 5) {
+        const now = moment().tz('Asia/Jakarta');
+        if (now.hour() === 23 && now.minute() >= 0 && now.minute() < 5) {
           clearInterval(intervalId);
           console.log('Stopped running from 23:00 to 23:05 WIB.');
           setTimeout(runContinuously, 5 * 60 * 1000); // Restart at 23:05 WIB
           return;
-      }
+        }
 
-      const tokenNames = Array.from(tokenMap.keys());
-      const currentName = tokenNames[currentIndex];
-      const currentToken = tokenMap.get(currentName);
+        if (elapsedHours >= 6) {
+            clearInterval(intervalId);
+            console.log('Stopped running after 6 hours.');
+            setTimeout(runContinuously, 0); // Restart immediately after 6 hours
+            return;
+        }
 
-      await fetchAssetPerMinute(currentToken, currentName);
+        const tokenNames = Array.from(tokenMap.keys());
+        const currentName = tokenNames[currentIndex];
+        const currentToken = tokenMap.get(currentName);
 
-      currentIndex = (currentIndex + 1) % tokenNames.length;
+        await fetchAssetPerMinute(currentToken, currentName);
+
+        currentIndex = (currentIndex + 1) % tokenNames.length;
     }, 5 * 1000);
 }
 

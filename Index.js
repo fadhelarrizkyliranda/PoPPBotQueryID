@@ -150,7 +150,7 @@ async function runContinuously() {
         }
 
         // Check if 6 hours have passed
-        if (elapsedHours >= 6) {
+        if (elapsedHours >= 5) {
             clearInterval(intervalId);
             console.log('Stopped running after 6 hours.');
             setTimeout(runContinuously, 0); // Restart immediately after 6 hours

@@ -135,27 +135,20 @@ async function runContinuously() {
     }
 
     const startTime = moment().tz('Asia/Jakarta');
-    let currentIndex = 0;
 
     let intervalId = setInterval(async () => {
         const now = moment().tz('Asia/Jakarta');
-        const elapsedHours = now.diff(startTime, 'hours');
+        const elapsedHours = now.diff(startTime, 'hours', true); 
 
-        // Check if 6 hours have passed
         if (elapsedHours >= 5) {
             clearInterval(intervalId);
-            console.log('Stopped running after 6 hours.');
-            setTimeout(runContinuously, 0); // Restart immediately after 6 hours
+            console.log('Stopped running after 5 hours.');
             return;
         }
 
-        const tokenNames = Array.from(tokenMap.keys());
-        const currentName = tokenNames[currentIndex];
-        const currentToken = tokenMap.get(currentName);
-
-        await fetchAssetPerMinute(currentToken, currentName);
-
-        currentIndex = (currentIndex + 1) % tokenNames.length;
+        for (const [name, token] of tokenMap.entries()) {
+            await fetchAssetPerMinute(token, name);
+        }
     }, 5 * 1000);
 }
 

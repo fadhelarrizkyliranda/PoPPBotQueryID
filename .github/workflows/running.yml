@@ -22,12 +22,14 @@ jobs:
           AUTH_TOKEN_1: '${{ secrets.AUTH_TOKEN_1 }}'
           AUTH_TOKEN_2: '${{ secrets.AUTH_TOKEN_2 }}'
           AUTH_TOKEN_3: '${{ secrets.AUTH_TOKEN_3 }}'
+          AUTH_TOKEN_4: '${{ secrets.AUTH_TOKEN_4 }}'
       - name: Run the script and save log
         run: node Index.js > output.log
         env:
           AUTH_TOKEN_1: '${{ secrets.AUTH_TOKEN_1 }}'
           AUTH_TOKEN_2: '${{ secrets.AUTH_TOKEN_2 }}'
           AUTH_TOKEN_3: '${{ secrets.AUTH_TOKEN_3 }}'
+          AUTH_TOKEN_4: '${{ secrets.AUTH_TOKEN_4 }}'
       - name: Upload log file
         uses: actions/upload-artifact@v2
         with:

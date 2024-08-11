@@ -2,13 +2,14 @@ const axios = require('axios');
 const colors = require('colors');
 const moment = require('moment-timezone');
 require('dotenv').config();
-const { AUTH_TOKEN_1, AUTH_TOKEN_2, AUTH_TOKEN_3 } = process.env;
+const { AUTH_TOKEN_1, AUTH_TOKEN_2, AUTH_TOKEN_3, AUTH_TOKEN_4} = process.env;
 
 // Payload untuk tiga akun
 const tokens = [
     { name: "0x5b53", initData: AUTH_TOKEN_1 },
     { name: "0x2", initData: AUTH_TOKEN_2 },
-    { name: "0x3", initData: AUTH_TOKEN_3 }
+    { name: "0x3", initData: AUTH_TOKEN_3 },
+    { name: "0x5", initData: AUTH_TOKEN_4 }
 ];
 
 // Function to get Bearer token
